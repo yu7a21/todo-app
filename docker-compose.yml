@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  app:
+    build: ./docker/php
+    ports:
+      - 20000:60
+    volumes:
+      - ./backend:/work
+
+  nginx:
+    image: nginx:1.18-alpine
+    ports:
+      - 20080:80
+    volumes:
+      - ./backend:/work
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /work
+
+  db:
+    build: ./docker/mysql
+    platform: linux/x86_64
+    ports: 
+      - 23306:3306
+    volumes:
+      - db-store:/var/lib/mysql
+
+volumes:
+  db-store:
