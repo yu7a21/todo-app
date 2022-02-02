@@ -20,6 +20,7 @@ class Todos extends Migration
             $table->time  ('deadline')->nullable();
             $table->string('origin', 100)->nullable();
             $table->string('ticket_id', 100)->nullable();
+            $table->bigInteger('category_id')->nullable();
             $table->string('scale', 100)->nullable();
             $table->string('status', 100)->nullable();
             $table->time  ('completion')->nullable();
