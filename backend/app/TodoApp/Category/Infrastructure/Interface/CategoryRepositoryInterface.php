@@ -1,6 +1,6 @@
 <?php
 
-namespace App\TodoApp\Category\Infrastructure;
+namespace App\TodoApp\Category\Infrastructure\Interface;
 
 use App\TodoApp\Category\Domain\Category;
 

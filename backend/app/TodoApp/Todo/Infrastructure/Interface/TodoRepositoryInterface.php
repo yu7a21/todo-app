@@ -14,5 +14,5 @@ interface TodoRepositoryInterface
      * @param  mixed $category
      * @return TodoList
      */
-    public function getByCategory(Category $category = null): TodoList;
+    public function getByCategory(?Category $category = null): TodoList;
 }

@@ -2,7 +2,7 @@
 
 namespace App\TodoApp\Todo\UseCase;
 
-use App\TodoApp\Category\Infrastructure\CategoryRepositoryInterface;
+use App\TodoApp\Category\Infrastructure\Interface\CategoryRepositoryInterface;
 use App\TodoApp\Todo\Domain\TodoDTOList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
