@@ -17,13 +17,13 @@ class Todos extends Migration
             $table->id();
             $table->string('title', 200);
             $table->string('description', 1000)->nullable();
-            $table->time  ('deadline')->nullable();
+            $table->dateTime('deadline')->nullable();
             $table->string('origin', 100)->nullable();
             $table->string('ticket_id', 100)->nullable();
             $table->bigInteger('category_id')->nullable();
             $table->string('scale', 100)->nullable();
             $table->string('status', 100)->nullable();
-            $table->time  ('completion')->nullable();
+            $table->dateTime('completion')->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate();
         });
