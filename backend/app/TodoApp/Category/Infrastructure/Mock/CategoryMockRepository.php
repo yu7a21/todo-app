@@ -7,8 +7,13 @@ use App\TodoApp\Category\Infrastructure\Interface\CategoryRepositoryInterface;
 
 class CategoryMockRepository implements CategoryRepositoryInterface
 {
-    public function getByName(string $category_name): ?Category
+    public function findByName(string $category_name): ?Category
     {
         return null;
+    }
+
+    public function findAll(): array
+    {
+        return [];
     }
 }

@@ -13,5 +13,12 @@ interface CategoryRepositoryInterface
      * @param  mixed $category_name
      * @return Category
      */
-    public function getByName(string $category_name): ?Category;
+    public function findByName(string $category_name): ?Category;
+
+    /**
+     * 全カテゴリ取得
+     *
+     * @return Category[]
+     */
+    public function findAll(): array;
 }

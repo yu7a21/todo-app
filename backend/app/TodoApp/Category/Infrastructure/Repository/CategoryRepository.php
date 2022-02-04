@@ -17,7 +17,7 @@ class CategoryRepository extends Model implements CategoryRepositoryInterface
      * @param  mixed $category_name
      * @return Category
      */
-    public function getByName(string $category_name): ?Category
+    public function findByName(string $category_name): ?Category
     {
         $result = self::where('name', $category_name)->first();
 
@@ -26,5 +26,19 @@ class CategoryRepository extends Model implements CategoryRepositoryInterface
         } else {
             return new Category($result->toArray());
         }
+    }
+
+    /**
+     * 全カテゴリ取得
+     *
+     * @return Category[]
+     */
+    public function findAll(): array
+    {
+        $category_array = [];
+        foreach (self::get()->toArray() as $result) {
+            $category_array[] = new Category($result);
+        }
+        return $category_array;
     }
 }

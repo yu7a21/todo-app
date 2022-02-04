@@ -15,4 +15,9 @@ class TodoDTOList
             }
         }
     }
+
+    public function getList(): array
+    {
+        return $this->todo_dto_list;
+    }
 }

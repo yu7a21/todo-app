@@ -9,6 +9,8 @@ class HomeController extends Controller
 {
     public function __invoke(TodoUseCase $use_case)
     {
-        return $use_case->home();
+        $datas = $use_case->home();
+
+        return view("home.home", ["datas" => $datas]);
     }
 }
