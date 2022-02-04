@@ -3,6 +3,7 @@
 namespace App\TodoApp\Todo\UseCase;
 
 use App\TodoApp\Category\Infrastructure\Interface\CategoryRepositoryInterface;
+use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
@@ -26,7 +27,12 @@ class TodoUseCase
         $todo_list = $this->todo_repository->getByCategory($category);
 
         //EntityからDTOにつめかえ
-        $todo_dto_list = new TodoDTOList($todo_list);
+        $todo_dto_array = [];
+        foreach ($todo_list->toArray() as $todo) {
+            $todo_dto_array[] = new TodoDTO($todo);
+        }
+
+        $todo_dto_list = new TodoDTOList($todo_dto_array);
 
         //DTOのリストを返す
         return $todo_dto_list;

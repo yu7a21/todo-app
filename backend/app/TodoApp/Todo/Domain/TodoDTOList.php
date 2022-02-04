@@ -4,12 +4,15 @@ namespace App\TodoApp\Todo\Domain;
 
 class TodoDTOList
 {
-    private array $todo_dto = [];
+    private array $todo_dto_list = [];
 
-    public function __construct(TodoList $todo_list)
+    public function __construct(array $todo_dto_array)
     {
-        foreach ($todo_list as $todo) {
-            $this->todo_dto[] = new TodoDTO($todo);
+        foreach ($todo_dto_array as $todo_dto) {
+            //TodoEntityのみもつ
+            if ($todo_dto instanceof TodoDTO) {
+                $this->todo_dto_list[] = $todo_dto;
+            }
         }
     }
 }

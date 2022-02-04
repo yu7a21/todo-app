@@ -23,7 +23,7 @@ class Todos extends Migration
             $table->bigInteger('category_id')->nullable();
             $table->string('scale', 100)->nullable();
             $table->string('status', 100)->nullable();
-            $table->dateTime('completion_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate();
         });

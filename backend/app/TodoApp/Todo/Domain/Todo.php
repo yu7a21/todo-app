@@ -23,7 +23,7 @@ class Todo
     //状態
     private string $status;
     //完了日
-    private string $completion_at;
+    private string $completed_at;
     //作成日
     private string $created_at;
     //更新日
@@ -40,9 +40,69 @@ class Todo
         $this->category_id = $this->setNullableValue($data["category_id"]);
         $this->scale = $this->setNullableValue($data["scale"]);
         $this->status = $this->setNullableValue($data["status"]);
-        $this->completion_at = $this->setNullableValue($data["completion_at"]);
+        $this->completed_at = $this->setNullableValue($data["completed_at"]);
         $this->created_at = $data["created_at"];
         $this->updated_at = $data["updated_at"];
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getDeadLine(): string
+    {
+        return $this->deadline;
+    }
+
+    public function getOrgin(): string
+    {
+        return $this->origin;
+    }
+
+    public function getTicketId(): string
+    {
+        return $this->ticket_id;
+    }
+
+    public function getCategoryId(): string
+    {
+        return $this->category_id;
+    }
+
+    public function getScale(): string
+    {
+        return $this->scale;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function getCompletedAt(): string
+    {
+        return $this->completed_at;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->updated_at;
     }
 
     private function setNullableValue(?string $value): string

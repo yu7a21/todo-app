@@ -26,7 +26,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
         if (is_null($category)) {
             $results = self::get();
         } else {
-            $results = self::where('category_id', $category->id())->get();
+            $results = self::where('category_id', $category->getId())->get();
         }
 
         if (is_null($results)) {
