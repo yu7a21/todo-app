@@ -7,6 +7,7 @@ use App\TodoApp\Category\Infrastructure\Mock\CategoryMockRepository;
 use App\TodoApp\Category\Infrastructure\Repository\CategoryRepository;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 use App\TodoApp\Todo\Infrastructure\Mock\TodoMockRepository;
+use App\TodoApp\Todo\Infrastructure\Repository\TodoRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(TodoRepositoryInterface::class, function () {
-            //return new TodoRepository();
-            return new TodoMockRepository();
+            return new TodoRepository();
+            // return new TodoMockRepository();
         });
     }
 

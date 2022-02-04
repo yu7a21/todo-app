@@ -9,8 +9,8 @@ use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
 class TodoMockRepository implements TodoRepositoryInterface
 {
-    public function getByCategory(?Category $category = null): TodoList
+    public function getByCategory(?Category $category = null): ?TodoList
     {
-        return new TodoList([new Todo]);
+        return new TodoList([new Todo([])]);
     }
 }
