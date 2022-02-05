@@ -5,6 +5,7 @@ namespace App\TodoApp\Todo\UseCase;
 use App\TodoApp\Category\UseCase\CategoryUseCase;
 use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;
+use App\TodoApp\Todo\Domain\TodoScale;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
 class TodoUseCase
@@ -27,7 +28,8 @@ class TodoUseCase
 
         return [
             "todo_dto_list" => $todo_dto_list,
-            "category_dto_list" => $category_dto_list
+            "category_dto_list" => $category_dto_list,
+            "scale_list" => TodoScale::getAllValue()
         ];
     }
 

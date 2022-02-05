@@ -19,7 +19,7 @@ class TodoDTO
     //カテゴリID
     private string $category_id;
     //規模
-    private string $scale;
+    private TodoScale $scale;
     //状態
     private string $status;
     //完了日
@@ -65,7 +65,7 @@ class TodoDTO
         return $this->deadline;
     }
 
-    public function getOrgin(): string
+    public function getOrigin(): string
     {
         return $this->origin;
     }
@@ -80,7 +80,7 @@ class TodoDTO
         return $this->category_id;
     }
 
-    public function getScale(): string
+    public function getScale(): TodoScale
     {
         return $this->scale;
     }

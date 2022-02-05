@@ -11,6 +11,6 @@ class HomeController extends Controller
     {
         $datas = $use_case->home();
 
-        return view("home.home", ["datas" => $datas]);
+        return view("home", ["title"=>'Home', "datas" => $datas]);
     }
 }
