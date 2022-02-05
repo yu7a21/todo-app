@@ -18,5 +18,11 @@
             </div>
         </div>
     </form>
+
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item" style="font-size: 1.5rem">
+            <strong>今週完了タスク数:<span style="color:red">10</span>個</strong>
+        </li>
+    </ul>
 </nav>
 <!-- /.navbar -->

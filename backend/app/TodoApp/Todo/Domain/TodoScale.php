@@ -26,7 +26,7 @@ class TodoScale
      */
     private function checkScaleValue(string $scale): string
     {
-        if (in_array($scale, self::getAllValue())) {
+        if (array_key_exists($scale, self::getAllValue())) {
             return $scale;
         } else {
             return "";

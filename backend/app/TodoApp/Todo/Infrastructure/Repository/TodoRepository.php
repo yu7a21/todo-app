@@ -6,11 +6,23 @@ use App\TodoApp\Category\Domain\Category;
 use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 use App\TodoApp\Todo\Domain\Todo;
+use App\TodoApp\Todo\Domain\TodoCreateForm;
 use Illuminate\Database\Eloquent\Model;
 
 class TodoRepository extends Model implements TodoRepositoryInterface
 {
     protected $table = 'todos';
+
+    protected $fillable = [
+        'title',
+        'description',
+        'deadline',
+        'origin',
+        'ticket_id',
+        'category_id',
+        'scale',
+        'status',
+    ];
 
     /**
      * カテゴリでタスクを絞り込んで取得
@@ -38,5 +50,27 @@ class TodoRepository extends Model implements TodoRepositoryInterface
             }
             return new TodoList($todo_array);
         }
+    }
+
+    /**
+     * ドメインを永続化
+     *
+     * @param  TodoCreateForm $todo
+     * @return void
+     */
+    public function create(TodoCreateForm $todo_form): void
+    {
+        //キモすぎ、、、、、、、
+        $todo_repository = new TodoRepository([
+            'title' => $todo_form->getTitle(),
+            'description' => $todo_form->getDescription(),
+            'deadline' => $todo_form->getDeadLine() ? $todo_form->getDeadLine() : null,
+            'origin' => $todo_form->getOrigin(),
+            'ticket_id' => $todo_form->getTicketId(),
+            'category_id' => $todo_form->getCategoryId(),
+            'scale' => $todo_form->getScale()->getScale(),
+            'status' => $todo_form->getStatus()->getStatus(),
+        ]);
+        $todo_repository->save();
     }
 }

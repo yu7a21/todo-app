@@ -4,6 +4,7 @@ namespace App\TodoApp\Todo\Infrastructure\Interface;
 
 use App\TodoApp\Category\Domain\Category;
 use App\TodoApp\Todo\Domain\TodoList;
+use App\TodoApp\Todo\Domain\TodoCreateForm;
 
 interface TodoRepositoryInterface
 {
@@ -15,4 +16,12 @@ interface TodoRepositoryInterface
      * @return TodoList
      */
     public function getByCategory(?Category $category = null): ?TodoList;
+
+    /**
+     * ドメインを永続化
+     *
+     * @param  Todo $todo
+     * @return void
+     */
+    public function create(TodoCreateForm $todo): void;
 }

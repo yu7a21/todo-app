@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'Todo\HomeController')->name('home');
+
+Route::post('/create', 'Todo\CreateController')->name('create');

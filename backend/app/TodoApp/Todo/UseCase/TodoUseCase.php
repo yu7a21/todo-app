@@ -3,6 +3,7 @@
 namespace App\TodoApp\Todo\UseCase;
 
 use App\TodoApp\Category\UseCase\CategoryUseCase;
+use App\TodoApp\Todo\Domain\TodoCreateForm;
 use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;
 use App\TodoApp\Todo\Domain\TodoScale;
@@ -31,6 +32,11 @@ class TodoUseCase
             "category_dto_list" => $category_dto_list,
             "scale_list" => TodoScale::getAllValue()
         ];
+    }
+
+    public function create(TodoCreateForm $todo_create_form): void
+    {
+        $this->todo_repository->create($todo_create_form);
     }
 
     private function findTodoListByCategoryName(string $category_name = ""): TodoDTOList

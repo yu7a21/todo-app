@@ -33,6 +33,17 @@
                     </li>
                 </ul>
             @endforeach
+            {{-- カテゴリ編集へのリンク --}}
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            カテゴリ編集
+                        </p>
+                    </a>
+                </li>
+            </ul>
             {{-- アーカイブへのリンク --}}
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                 <li class="nav-item">

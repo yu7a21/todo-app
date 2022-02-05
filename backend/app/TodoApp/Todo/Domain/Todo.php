@@ -21,7 +21,7 @@ class Todo
     //規模
     private TodoScale $scale;
     //状態
-    private string $status;
+    private TodoStatus $status;
     //完了日
     private string $completed_at;
     //作成日
@@ -39,7 +39,7 @@ class Todo
         $this->ticket_id = $this->setNullableValue($data["ticket_id"]);
         $this->category_id = $this->setNullableValue($data["category_id"]);
         $this->scale = new TodoScale($this->setNullableValue($data["scale"]));
-        $this->status = $this->setNullableValue($data["status"]);
+        $this->status = new TodoStatus($this->setNullableValue($data["status"]));
         $this->completed_at = $this->setNullableValue($data["completed_at"]);
         $this->created_at = $data["created_at"];
         $this->updated_at = $data["updated_at"];
@@ -85,7 +85,7 @@ class Todo
         return $this->scale;
     }
 
-    public function getStatus(): string
+    public function getStatus(): TodoStatus
     {
         return $this->status;
     }

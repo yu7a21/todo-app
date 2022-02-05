@@ -2,6 +2,8 @@
 
 namespace App\TodoApp\Todo\Domain;
 
+use DateTime;
+
 class TodoDTO
 {
     //ID
@@ -21,7 +23,7 @@ class TodoDTO
     //規模
     private TodoScale $scale;
     //状態
-    private string $status;
+    private TodoStatus $status;
     //完了日
     private string $completed_at;
     //作成日
@@ -62,7 +64,9 @@ class TodoDTO
 
     public function getDeadLine(): string
     {
-        return $this->deadline;
+        //Y-m-d H:i:s で入っているが画面では邪魔なのでフォーマットして返す
+        $date = new DateTime($this->deadline);
+        return $date->format('Y/m/d');
     }
 
     public function getOrigin(): string
@@ -85,7 +89,7 @@ class TodoDTO
         return $this->scale;
     }
 
-    public function getStatus(): string
+    public function getStatus(): TodoStatus
     {
         return $this->status;
     }
