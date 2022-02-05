@@ -31,7 +31,7 @@ class TodoUseCase
         ];
     }
 
-    public function findTodoListByCategoryName(string $category_name = ""): TodoDTOList
+    private function findTodoListByCategoryName(string $category_name = ""): TodoDTOList
     {
         //カテゴリ名からカテゴリentity取得
         $category = $this->category_use_case->findByName($category_name);
