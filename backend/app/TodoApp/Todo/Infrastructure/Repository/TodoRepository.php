@@ -7,6 +7,7 @@ use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 use App\TodoApp\Todo\Domain\Todo;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
+use App\TodoApp\Todo\Domain\TodoStatus;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
@@ -97,7 +98,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
     public function completeById(int $id): void
     {
         $now = new DateTime();
-        self::where('id', $id)->update(["completed_at" => $now->format('Y-m-d H:i:s')]);
+        self::where('id', $id)->update(["completed_at" => $now->format('Y-m-d H:i:s'), "status" => TodoStatus::DONE]);
     }
 
     /**
@@ -127,7 +128,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
      */
     public function getCompletedTodo(): ?TodoList
     {
-        $results = self::where("completed_at", "!=", null)->get();
+        $results = self::where("status", TodoStatus::DONE)->get();
 
         if (count($results) == 0) {
             return null;
