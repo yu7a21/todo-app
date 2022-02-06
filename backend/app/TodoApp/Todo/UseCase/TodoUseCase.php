@@ -104,7 +104,7 @@ class TodoUseCase
     }
 
     private function getWeekDays() {
-        $now = new DateTime();
+        $now = new DateTime('Asia/Tokyo');
         $now = $now->format('Y-m-d');
         //PHPのデフォルトは日(0)~土(6)なので月(0)~日(6)にする（月曜始まりにする）
         $w = (date("w",strtotime($now)) == 0) ? 6 : date("w",strtotime($now))-1;
