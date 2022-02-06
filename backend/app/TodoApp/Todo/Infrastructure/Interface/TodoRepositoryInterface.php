@@ -24,4 +24,12 @@ interface TodoRepositoryInterface
      * @return void
      */
     public function create(TodoCreateForm $todo): void;
+
+    /**
+     * タスクを削除（論理削除）
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteById(int $id): void;
 }

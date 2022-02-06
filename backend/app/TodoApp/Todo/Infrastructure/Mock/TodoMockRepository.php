@@ -25,4 +25,15 @@ class TodoMockRepository implements TodoRepositoryInterface
     {
 
     }
+
+    /**
+     * タスクを削除（論理削除）
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteById(int $id): void
+    {
+
+    }
 }

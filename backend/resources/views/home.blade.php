@@ -93,9 +93,14 @@
                                         <div class="col-sm-2" style="text-align: center;">
                                             <a href="#" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon far fa-check-circle"></i></a>
                                         </div>
-                                        <div class="col-sm-2" style="text-align: center;">
-                                            <a href="#" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon fas fa-trash-alt"></i></a>
-                                        </div>
+                                        <form method="POST" id="delete_form_{{$todo->getId()}}" action="{{ route('delete_todo')}}">
+                                            @csrf
+                                            <div class="col-sm-2" style="text-align: center;">
+                                                <input type="hidden" name="id" value={{$todo->getId()}}>
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                <a href="javascript:delete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon fas fa-trash-alt"></i></a>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                                 <!-- /.card-footer -->

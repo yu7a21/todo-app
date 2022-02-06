@@ -35,10 +35,11 @@ class TodoRepository extends Model implements TodoRepositoryInterface
     public function getByCategory(?Category $category = null): ?TodoList
     {
 
+        // カテゴリによる絞り込みがない場合全件取得
         if (is_null($category)) {
-            $results = self::get();
+            $results = self::where("is_deleted", false)->get();
         } else {
-            $results = self::where('category_id', $category->getId())->get();
+            $results = self::where('category_id', $category->getId())->where("is_deleted", false)->get();
         }
 
         if (is_null($results)) {
@@ -72,5 +73,16 @@ class TodoRepository extends Model implements TodoRepositoryInterface
             'status' => $todo_form->getStatus()->getStatus(),
         ]);
         $todo_repository->save();
+    }
+
+    /**
+     * タスクを削除（論理削除）
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteById(int $id): void
+    {
+        self::where('id', $id)->update(["is_deleted" => true]);
     }
 }

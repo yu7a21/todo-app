@@ -24,6 +24,7 @@ class Todos extends Migration
             $table->string('scale', 100)->nullable();
             $table->string('status', 100)->nullable();
             $table->dateTime('completed_at')->nullable();
+            $table->boolean('is_deleted')->default(false);
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate();
         });

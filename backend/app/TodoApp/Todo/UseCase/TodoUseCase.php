@@ -44,6 +44,11 @@ class TodoUseCase
         $this->todo_repository->create($todo_create_form);
     }
 
+    public function delete(int $id): void
+    {
+        $this->todo_repository->deleteById($id);
+    }
+
     private function findTodoListByCategoryName(string $category_name = ""): TodoDTOList
     {
         //カテゴリ名からカテゴリentity取得
