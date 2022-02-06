@@ -76,13 +76,13 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer">
                                     <div class="row">
-                                        <div class="col-sm-6" style="text-align: center">
-                                            {{$todo->getDeadLine()}}
+                                        <div class="col-sm-8" style="text-align: left">
+                                            <i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}
                                         </div>
-                                        <div class="col-sm-3" style="text-align: center;">
+                                        <div class="col-sm-2" style="text-align: center;">
                                             <a href="#" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon far fa-check-circle"></i></a>
                                         </div>
-                                        <div class="col-sm-3" style="text-align: center;">
+                                        <div class="col-sm-2" style="text-align: center;">
                                             <a href="#" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon fas fa-trash-alt"></i></a>
                                         </div>
                                     </div>

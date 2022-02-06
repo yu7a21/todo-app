@@ -3,6 +3,7 @@
 namespace App\TodoApp\Todo\UseCase;
 
 use App\TodoApp\Category\UseCase\CategoryUseCase;
+use App\TodoApp\Exception\CategoryNotFoundException;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
 use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;
@@ -21,11 +22,15 @@ class TodoUseCase
 
     public function home(string $category_name = ""): array
     {
-        //カテゴリ名からタスク一覧を取得
-        $todo_dto_list = $this->findTodoListByCategoryName($category_name);
+        if (!$this->category_use_case->existCategoryName($category_name)) {
+            throw new CategoryNotFoundException();
+        }
 
         //全カテゴリ取得
         $category_dto_list = $this->category_use_case->findAll();
+
+        //カテゴリ名からタスク一覧を取得
+        $todo_dto_list = $this->findTodoListByCategoryName($category_name);
 
         return [
             "todo_dto_list" => $todo_dto_list,

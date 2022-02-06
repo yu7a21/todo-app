@@ -29,4 +29,28 @@ class CategoryUseCase
     {
         return $this->category_repository->findByName($category_name);
     }
+
+    /**
+     * カテゴリ名がDBに存在するかをチェック
+     *
+     * @param  mixed $category_name
+     * @param  mixed $category_dto_list
+     * @return bool
+     */
+    public function existCategoryName(string $category_name): bool
+    {
+        $category_dto_list = $this->findAll();
+
+        if ($category_name != "") {
+            foreach ($category_dto_list->getList() as $category_dto) {
+                if ($category_dto->getName() === $category_name) {
+                    return true;
+                }
+            }
+        } else {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -12,7 +12,7 @@
             {{-- 全タスク表示ページへのリンク --}}
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route("home")}}" class="nav-link">
                         <i class="nav-icon far fa-lightbulb"></i>
                         <p>
                             ぜんぶ
@@ -24,7 +24,7 @@
             @foreach ($datas["category_dto_list"]->getList() as $category)
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route("category", ["category_name" => $category->getName()])}}" class="nav-link">
                             <i class="nav-icon fas fa-tag"></i>
                             <p>
                                 {{ $category->getName() }}
