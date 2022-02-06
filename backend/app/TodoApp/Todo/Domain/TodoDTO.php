@@ -65,8 +65,12 @@ class TodoDTO
     public function getDeadLine(): string
     {
         //Y-m-d H:i:s で入っているが画面では邪魔なのでフォーマットして返す
-        $date = new DateTime($this->deadline);
-        return $date->format('Y/m/d');
+        if ($this->deadline == "") {
+            return "";
+        } else {
+            $date = new DateTime($this->deadline);
+            return $date->format('Y/m/d');
+        }
     }
 
     public function getOrigin(): string
@@ -107,5 +111,16 @@ class TodoDTO
     public function getUpdatedAt(): string
     {
         return $this->updated_at;
+    }
+
+    /**
+     * 期限を過ぎているかどうかを返す
+     *
+     * @return bool
+     */
+    public function isOutOfDeadline(): bool
+    {
+        $now = new DateTime();
+        return strtotime($now->format('Y/m/d')) > strtotime($this->deadline);
     }
 }

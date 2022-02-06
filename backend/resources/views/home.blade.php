@@ -76,9 +76,20 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer">
                                     <div class="row">
-                                        <div class="col-sm-8" style="text-align: left">
-                                            <i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}
-                                        </div>
+                                        {{-- 期日があるもののみ表示 --}}
+                                        @if($todo->getDeadLine() != "")
+                                            <div class="col-sm-8" style="text-align: left">
+                                                {{-- 期日を過ぎていたら赤くする --}}
+                                                @if($todo->isOutOfDeadline())
+                                                    <p style="color:red; margin:0;"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
+                                                @else
+                                                    <p style="margin:0;"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <div class="col-sm-8" style="text-align: left">
+                                            </div>
+                                        @endif
                                         <div class="col-sm-2" style="text-align: center;">
                                             <a href="#" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon far fa-check-circle"></i></a>
                                         </div>
