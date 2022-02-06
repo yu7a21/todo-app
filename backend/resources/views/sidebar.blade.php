@@ -47,7 +47,7 @@
             {{-- アーカイブへのリンク --}}
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('completed_todo')}}" class="nav-link">
                         <i class="nav-icon far fa-check-circle"></i>
                         <p>
                             おわったタスク

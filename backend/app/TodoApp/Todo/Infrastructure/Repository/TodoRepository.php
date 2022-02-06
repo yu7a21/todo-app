@@ -7,6 +7,7 @@ use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 use App\TodoApp\Todo\Domain\Todo;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 class TodoRepository extends Model implements TodoRepositoryInterface
@@ -31,16 +32,17 @@ class TodoRepository extends Model implements TodoRepositoryInterface
      * @param  mixed $category
      * @return TodoList
      */
-
     public function getByCategory(?Category $category = null): ?TodoList
     {
 
+        $query = self::where("is_deleted", false)->where("completed_at", null);
+
         // カテゴリによる絞り込みがない場合全件取得
-        if (is_null($category)) {
-            $results = self::where("is_deleted", false)->get();
-        } else {
-            $results = self::where('category_id', $category->getId())->where("is_deleted", false)->get();
+        if (!is_null($category)) {
+            $results = $query->where('category_id', $category->getId());
         }
+
+        $results = $query->get();
 
         if (count($results) == 0) {
             return null;
@@ -87,6 +89,18 @@ class TodoRepository extends Model implements TodoRepositoryInterface
     }
 
     /**
+     * タスクを完了にする（論理削除）
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function completeById(int $id): void
+    {
+        $now = new DateTime();
+        self::where('id', $id)->update(["completed_at" => $now->format('Y-m-d H:i:s')]);
+    }
+
+    /**
      * 削除されたタスクを取得
      *
      * @return TodoList
@@ -105,4 +119,26 @@ class TodoRepository extends Model implements TodoRepositoryInterface
             return new TodoList($todo_array);
         }
     }
+
+    /**
+     * 完了済みのタスクを取得
+     *
+     * @return TodoList
+     */
+    public function getCompletedTodo(): ?TodoList
+    {
+        $results = self::where("completed_at", "!=", null)->get();
+
+        if (count($results) == 0) {
+            return null;
+        } else {
+            $todo_array = [];
+            foreach($results as $result) {
+                $todo_array[] = new Todo($result->toArray());
+            }
+            return new TodoList($todo_array);
+        }
+    }
+
+
 }

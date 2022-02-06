@@ -51,9 +51,30 @@ class TodoUseCase
         $this->todo_repository->deleteById($id);
     }
 
+    public function complete(int $id): void
+    {
+        $this->todo_repository->completeById($id);
+    }
+
     public function deletedTodo(): array
     {
         $todo_list = $this->todo_repository->getDeletedTodo();
+
+        if (is_null($todo_list)) {
+            $todo_dto_list = new TodoDTOList([]);
+        } else {
+            $todo_dto_list = $this->convertEntityListToDtoList($todo_list);
+        }
+        return [
+            "todo_dto_list" => $todo_dto_list,
+            "category_dto_list" => $this->category_use_case->findAll(),
+            "scale_list" => TodoScale::getAllValue()
+        ];
+    }
+
+    public function completedTodo(): array
+    {
+        $todo_list = $this->todo_repository->getCompletedTodo();
 
         if (is_null($todo_list)) {
             $todo_dto_list = new TodoDTOList([]);

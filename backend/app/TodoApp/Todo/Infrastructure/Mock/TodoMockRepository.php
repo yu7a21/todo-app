@@ -38,12 +38,33 @@ class TodoMockRepository implements TodoRepositoryInterface
     }
 
     /**
+     * タスクを完了にする（論理削除）
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function completeById(int $id): void
+    {
+
+    }
+
+    /**
      * 削除されたタスクを取得
      *
      * @return TodoList
      */
     public function getDeletedTodo(): ?TodoList
     {
-        return new TodoList([new Todo([])]);
+        return new TodoList([]);
+    }
+
+    /**
+     * 削除されたタスクを取得
+     *
+     * @return TodoList
+     */
+    public function getCompletedTodo(): ?TodoList
+    {
+        return new TodoList([]);
     }
 }

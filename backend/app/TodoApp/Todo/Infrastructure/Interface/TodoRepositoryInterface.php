@@ -34,9 +34,24 @@ interface TodoRepositoryInterface
     public function deleteById(int $id): void;
 
     /**
+     * タスクを完了にする（論理削除）
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function completeById(int $id): void;
+
+    /**
      * 削除されたタスクを取得
      *
      * @return TodoList
      */
     public function getDeletedTodo(): ?TodoList;
+
+    /**
+     * 完了済みのタスクを取得
+     *
+     * @return TodoList
+     */
+    public function getCompletedTodo(): ?TodoList;
 }
