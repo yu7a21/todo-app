@@ -32,4 +32,11 @@ interface TodoRepositoryInterface
      * @return void
      */
     public function deleteById(int $id): void;
+
+    /**
+     * 削除されたタスクを取得
+     *
+     * @return TodoList
+     */
+    public function getDeletedTodo(): ?TodoList;
 }

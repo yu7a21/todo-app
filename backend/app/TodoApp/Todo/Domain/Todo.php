@@ -24,6 +24,8 @@ class Todo
     private TodoStatus $status;
     //完了日
     private string $completed_at;
+    //削除フラグ
+    private bool $is_deleted;
     //作成日
     private string $created_at;
     //更新日
@@ -41,6 +43,7 @@ class Todo
         $this->scale = new TodoScale($this->setNullableValue($data["scale"]));
         $this->status = new TodoStatus($this->setNullableValue($data["status"]));
         $this->completed_at = $this->setNullableValue($data["completed_at"]);
+        $this->is_deleted = $data["is_deleted"];
         $this->created_at = $data["created_at"];
         $this->updated_at = $data["updated_at"];
     }
@@ -93,6 +96,11 @@ class Todo
     public function getCompletedAt(): string
     {
         return $this->completed_at;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->is_deleted;
     }
 
     public function getCreatedAt(): string

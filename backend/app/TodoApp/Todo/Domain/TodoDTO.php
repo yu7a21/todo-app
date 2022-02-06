@@ -26,6 +26,8 @@ class TodoDTO
     private TodoStatus $status;
     //完了日
     private string $completed_at;
+    //削除フラグ
+    private bool $is_deleted;
     //作成日
     private string $created_at;
     //更新日
@@ -43,6 +45,7 @@ class TodoDTO
         $this->scale = $todo->getScale();
         $this->status = $todo->getStatus();
         $this->completed_at = $todo->getCompletedAt();
+        $this->is_deleted = $todo->isDeleted();
         $this->created_at = $todo->getCreatedAt();
         $this->updated_at = $todo->getUpdatedAt();
     }
@@ -101,6 +104,11 @@ class TodoDTO
     public function getCompletedAt(): string
     {
         return $this->completed_at;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->is_deleted;
     }
 
     public function getCreatedAt(): string

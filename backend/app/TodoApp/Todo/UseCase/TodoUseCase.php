@@ -4,9 +4,11 @@ namespace App\TodoApp\Todo\UseCase;
 
 use App\TodoApp\Category\UseCase\CategoryUseCase;
 use App\TodoApp\Exception\CategoryNotFoundException;
+use App\TodoApp\Todo\Domain\Todo;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
 use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;
+use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Domain\TodoScale;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
@@ -49,6 +51,22 @@ class TodoUseCase
         $this->todo_repository->deleteById($id);
     }
 
+    public function deletedTodo(): array
+    {
+        $todo_list = $this->todo_repository->getDeletedTodo();
+
+        if (is_null($todo_list)) {
+            $todo_dto_list = new TodoDTOList([]);
+        } else {
+            $todo_dto_list = $this->convertEntityListToDtoList($todo_list);
+        }
+        return [
+            "todo_dto_list" => $todo_dto_list,
+            "category_dto_list" => $this->category_use_case->findAll(),
+            "scale_list" => TodoScale::getAllValue()
+        ];
+    }
+
     private function findTodoListByCategoryName(string $category_name = ""): TodoDTOList
     {
         //カテゴリ名からカテゴリentity取得
@@ -57,15 +75,23 @@ class TodoUseCase
         //カテゴリからタスクデータ取得
         $todo_list = $this->todo_repository->getByCategory($category);
 
-        //EntityからDTOにつめかえ
+        if (is_null($todo_list)) {
+            $todo_dto_list = new TodoDTOList([]);
+        } else {
+            $todo_dto_list = $this->convertEntityListToDtoList($todo_list);
+        }
+
+        //DTOのリストを返す
+        return $todo_dto_list;
+    }
+
+    private function convertEntityListToDtoList(TodoList $todo_list): TodoDTOList
+    {
         $todo_dto_array = [];
         foreach ($todo_list->toArray() as $todo) {
             $todo_dto_array[] = new TodoDTO($todo);
         }
 
-        $todo_dto_list = new TodoDTOList($todo_dto_array);
-
-        //DTOのリストを返す
-        return $todo_dto_list;
+        return new TodoDTOList($todo_dto_array);
     }
 }

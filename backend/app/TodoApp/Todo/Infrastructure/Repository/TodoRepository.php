@@ -42,7 +42,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
             $results = self::where('category_id', $category->getId())->where("is_deleted", false)->get();
         }
 
-        if (is_null($results)) {
+        if (count($results) == 0) {
             return null;
         } else {
             $todo_array = [];
@@ -84,5 +84,25 @@ class TodoRepository extends Model implements TodoRepositoryInterface
     public function deleteById(int $id): void
     {
         self::where('id', $id)->update(["is_deleted" => true]);
+    }
+
+    /**
+     * 削除されたタスクを取得
+     *
+     * @return TodoList
+     */
+    public function getDeletedTodo(): ?TodoList
+    {
+        $results = self::where("is_deleted", true)->get();
+
+        if (count($results) == 0) {
+            return null;
+        } else {
+            $todo_array = [];
+            foreach($results as $result) {
+                $todo_array[] = new Todo($result->toArray());
+            }
+            return new TodoList($todo_array);
+        }
     }
 }

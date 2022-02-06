@@ -58,7 +58,7 @@
             {{-- ゴミ箱ページへのリンク --}}
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('deleted_todo')}}" class="nav-link">
                         <i class="nav-icon fas fa-trash-alt"></i>
                         <p>
                             やめたタスク

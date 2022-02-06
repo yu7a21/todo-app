@@ -36,4 +36,14 @@ class TodoMockRepository implements TodoRepositoryInterface
     {
 
     }
+
+    /**
+     * 削除されたタスクを取得
+     *
+     * @return TodoList
+     */
+    public function getDeletedTodo(): ?TodoList
+    {
+        return new TodoList([new Todo([])]);
+    }
 }
