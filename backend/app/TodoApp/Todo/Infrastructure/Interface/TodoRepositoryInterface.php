@@ -49,9 +49,10 @@ interface TodoRepositoryInterface
     public function getDeletedTodo(): ?TodoList;
 
     /**
-     * 完了済みのタスクを取得
+     * 完了したタスクを取得
+     * 引数に配列を渡した場合その範囲の日付で完了になったタスクを検索する
      *
      * @return TodoList
      */
-    public function getCompletedTodo(): ?TodoList;
+    public function getCompletedTodo(array $range = []): ?TodoList;
 }

@@ -122,13 +122,21 @@ class TodoRepository extends Model implements TodoRepositoryInterface
     }
 
     /**
-     * 完了済みのタスクを取得
+     * 完了したタスクを取得
+     * 引数に配列を渡した場合その範囲の日付で完了になったタスクを検索する
      *
+     * @param  mixed $range
      * @return TodoList
      */
-    public function getCompletedTodo(): ?TodoList
+    public function getCompletedTodo(array $range = []): ?TodoList
     {
-        $results = self::where("status", TodoStatus::DONE)->get();
+        $query = self::where("status", TodoStatus::DONE);
+        //範囲が指定されていたらその範囲で取得
+        if (!empty($range) && count($range)) {
+            $query->whereBetween('completed_at', $range);
+        }
+
+        $results = $query->get();
 
         if (count($results) == 0) {
             return null;

@@ -24,4 +24,9 @@ class TodoList
     {
         return $this->todo_list;
     }
+
+    public function count(): int
+    {
+        return count($this->todo_list);
+    }
 }

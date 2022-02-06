@@ -90,8 +90,8 @@
                                             <div class="col-sm-8" style="text-align: left">
                                             </div>
                                         @endif
-                                        {{-- やめたタスクページでは表示しない --}}
-                                        @if ($title != "やめたタスク")
+                                        {{-- おわったタスクページ、やめたタスクページでは表示しない --}}
+                                        @if ($title != "おわったタスク" && $title != "やめたタスク")
                                             <form method="POST" id="complete_form_{{$todo->getId()}}" action="{{ route('complete_todo')}}">
                                                 @csrf
                                                 <input type="hidden" name="id" value={{$todo->getId()}}>
