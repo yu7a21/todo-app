@@ -53,4 +53,22 @@ class CategoryUseCase
 
         return false;
     }
+
+    public function update(array $category_form_array): void
+    {
+        //TODO:リポジトリにはformではなくエンティティに詰め替えて渡した方がいいと思います。
+        foreach ($category_form_array as $category_form) {
+            //IDがないものは新規データ
+            if ($category_form->hasNotId()) {
+                //カテゴリ名もなかったらスキップ
+                if ($category_form->hasNotName()) {
+                    continue;
+                } else {
+                    $this->category_repository->create($category_form);
+                }
+            } else {
+                $this->category_repository->updateCategory($category_form);
+            }
+        }
+    }
 }

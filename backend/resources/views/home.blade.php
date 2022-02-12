@@ -7,7 +7,6 @@
     <div class="wrapper">
         @include('header')
         @include('sidebar')
-
         <div class="content-wrapper">
             <div class="content">
 
@@ -54,7 +53,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="todo-list-container">
+                <div class="todo-list-container container">
                     <div class="row">
                         @foreach ($datas["todo_dto_list"]->getList() as $todo)
                             <div class="card todo-card" style="border-radius: 10px; width:24%">
@@ -75,40 +74,42 @@
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <div class="row">
-                                        {{-- 期日があるもののみ表示 --}}
-                                        @if($todo->getDeadLine() != "")
-                                            <div class="col-sm-8" style="text-align: left">
-                                                {{-- 期日を過ぎていたら赤くする。おわったタスクページ、やめたタスクページでは赤くしない --}}
-                                                @if($todo->isOutOfDeadline() && $title != "おわったタスク" && $title != "やめたタスク")
-                                                    <p style="color:red; margin:0;"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
-                                                @else
-                                                    <p style="margin:0;"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
-                                                @endif
-                                            </div>
-                                        @else
-                                            <div class="col-sm-8" style="text-align: left">
-                                            </div>
-                                        @endif
-                                        {{-- おわったタスクページ、やめたタスクページでは表示しない --}}
-                                        @if ($title != "おわったタスク" && $title != "やめたタスク")
-                                            <form method="POST" id="complete_form_{{$todo->getId()}}" action="{{ route('complete_todo')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value={{$todo->getId()}}>
-                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                                <div class="col-sm-2" style="text-align: center;">
-                                                    <a href="javascript:complete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon far fa-check-circle"></i></a>
+                                    <div class="container">
+                                        <div class="row">
+                                            {{-- 期日があるもののみ表示 --}}
+                                            @if($todo->getDeadLine() != "")
+                                                <div class="col-sm-8" style="text-align: left">
+                                                    {{-- 期日を過ぎていたら赤くする。おわったタスクページ、やめたタスクページでは赤くしない --}}
+                                                    @if($todo->isOutOfDeadline() && $title != "おわったタスク" && $title != "やめたタスク")
+                                                        <p style="color:red; margin:0;"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
+                                                    @else
+                                                        <p style="margin:0;"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
+                                                    @endif
                                                 </div>
-                                            </form>
-                                            <form method="POST" id="delete_form_{{$todo->getId()}}" action="{{ route('delete_todo')}}">
-                                                @csrf
-                                                <div class="col-sm-2" style="text-align: center;">
+                                            @else
+                                                <div class="col-sm-8" style="text-align: left">
+                                                </div>
+                                            @endif
+                                            {{-- おわったタスクページ、やめたタスクページでは表示しない --}}
+                                            @if ($title != "おわったタスク" && $title != "やめたタスク")
+                                                <form method="POST" id="complete_form_{{$todo->getId()}}" action="{{ route('complete_todo')}}">
+                                                    @csrf
                                                     <input type="hidden" name="id" value={{$todo->getId()}}>
                                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                                    <a href="javascript:delete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon fas fa-trash-alt"></i></a>
-                                                </div>
-                                            </form>
-                                        @endif
+                                                    <div class="col-sm-2" style="text-align: center;">
+                                                        <a href="javascript:complete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon far fa-check-circle"></i></a>
+                                                    </div>
+                                                </form>
+                                                <form method="POST" id="delete_form_{{$todo->getId()}}" action="{{ route('delete_todo')}}">
+                                                    @csrf
+                                                    <div class="col-sm-2" style="text-align: center;">
+                                                        <input type="hidden" name="id" value={{$todo->getId()}}>
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                        <a href="javascript:delete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon fas fa-trash-alt"></i></a>
+                                                    </div>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.card-footer -->

@@ -3,12 +3,17 @@
 namespace App\TodoApp\Category\Infrastructure\Repository;
 
 use App\TodoApp\Category\Domain\Category;
+use App\TodoApp\Category\Domain\CategoryForm;
 use App\TodoApp\Category\Infrastructure\Interface\CategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryRepository extends Model implements CategoryRepositoryInterface
 {
     protected $table = 'categories';
+
+    protected $fillable = [
+        'name'
+    ];
 
     /**
      * カテゴリ名からカテゴリを取得
@@ -40,5 +45,30 @@ class CategoryRepository extends Model implements CategoryRepositoryInterface
             $category_array[] = new Category($result);
         }
         return $category_array;
+    }
+
+    /**
+     * カテゴリ作成
+     *
+     * @param  CategoryForm $category_form
+     * @return void
+     */
+    public function create(CategoryForm $category_form): void
+    {
+        $category_repository = new CategoryRepository([
+            'name' => $category_form->getName()
+        ]);
+        $category_repository->save();
+    }
+
+    /**
+     * カテゴリ更新
+     *
+     * @param  CategoryForm $category_form
+     * @return void
+     */
+    public function updateCategory(CategoryForm $category_form): void
+    {
+        self::where('id', $category_form->getId())->update(["name" => $category_form->getName()]);
     }
 }

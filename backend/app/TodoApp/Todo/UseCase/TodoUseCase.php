@@ -4,7 +4,7 @@ namespace App\TodoApp\Todo\UseCase;
 
 use App\TodoApp\Category\UseCase\CategoryUseCase;
 use App\TodoApp\Exception\CategoryNotFoundException;
-use App\TodoApp\Todo\Domain\Todo;
+
 use App\TodoApp\Todo\Domain\TodoCreateForm;
 use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;

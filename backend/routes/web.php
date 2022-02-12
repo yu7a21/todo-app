@@ -25,4 +25,6 @@ Route::get('/deleted', 'Todo\DeletedTodoController')->name('deleted_todo');
 
 Route::get('/completed', 'Todo\CompletedTodoController')->name('completed_todo');
 
+Route::post('/category', 'Category\CategoryController')->name('category_edit');
+
 Route::get('/{category_name}', 'Todo\CategoryHomeController')->name('category');
