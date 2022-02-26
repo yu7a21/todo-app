@@ -149,5 +149,14 @@ class TodoRepository extends Model implements TodoRepositoryInterface
         }
     }
 
-
+    /**
+     * 渡されたカテゴリIDを持つタスクデータのカテゴリIDを削除
+     *
+     * @param  mixed $category_id
+     * @return void
+     */
+    public function deleteCategoryId(int $category_id): void
+    {
+        $todos = self::where('category_id', $category_id)->get();
+    }
 }

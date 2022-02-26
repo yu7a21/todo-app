@@ -93,6 +93,11 @@ class TodoUseCase
         ];
     }
 
+    public function deleteCategoryId(int $category_id): void
+    {
+        $this->todo_repository->deleteCategoryId($category_id);
+    }
+
     private function countCompletedTodoInThisWeek(): int
     {
         $todo_list = $this->todo_repository->getCompletedTodo($this->getWeekDays());

@@ -71,4 +71,16 @@ class CategoryRepository extends Model implements CategoryRepositoryInterface
     {
         self::where('id', $category_form->getId())->update(["name" => $category_form->getName()]);
     }
+
+    /**
+     * カテゴリを削除する
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteById(int $id): void
+    {
+        self::where('id', $id)->delete();
+    }
+
 }

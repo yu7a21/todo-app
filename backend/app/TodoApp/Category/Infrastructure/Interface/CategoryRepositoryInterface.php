@@ -38,4 +38,12 @@ interface CategoryRepositoryInterface
      * @return void
      */
     public function updateCategory(CategoryForm $category_form): void;
+
+    /**
+     * カテゴリを削除する
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteById(int $id): void;
 }

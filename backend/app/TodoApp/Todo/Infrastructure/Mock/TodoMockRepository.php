@@ -68,4 +68,16 @@ class TodoMockRepository implements TodoRepositoryInterface
     {
         return new TodoList([]);
     }
+
+    /**
+     * 渡されたカテゴリIDを持つタスクデータのカテゴリIDを削除
+     *
+     * @param  mixed $category_id
+     * @return void
+     */
+    public function deleteCategoryId(int $category_id): void
+    {
+
+    }
+
 }

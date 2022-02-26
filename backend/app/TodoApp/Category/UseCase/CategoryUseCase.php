@@ -7,6 +7,8 @@ use App\TodoApp\Category\Domain\Category;
 use App\TodoApp\Category\Domain\CategoryDTO;
 use App\TodoApp\Category\Domain\CategoryDTOList;
 
+use App\TodoApp\Todo\UseCase\TodoUseCase;
+
 class CategoryUseCase
 {
     public function __construct()
@@ -54,7 +56,13 @@ class CategoryUseCase
         return false;
     }
 
-    public function update(array $category_form_array): void
+    public function updateAndDelete(array $category_form_array, array $delete_category_list) {
+        $this->update($category_form_array);
+
+        $this->delete($delete_category_list);
+    }
+
+    private function update(array $category_form_array): void
     {
         //TODO:リポジトリにはformではなくエンティティに詰め替えて渡した方がいいと思います。
         foreach ($category_form_array as $category_form) {
@@ -70,5 +78,19 @@ class CategoryUseCase
                 $this->category_repository->updateCategory($category_form);
             }
         }
+    }
+
+    private function delete(array $delete_category_list): void
+    {
+        $todo_use_case = new TodoUseCase();
+
+        foreach ($delete_category_list as $category_id) {
+            //タスクテーブルに登録されているIDを削除
+            $todo_use_case->deleteCategoryId($category_id);
+
+            //カテゴリDBから削除
+            $this->category_repository->deleteById($category_id);
+        }
+
     }
 }

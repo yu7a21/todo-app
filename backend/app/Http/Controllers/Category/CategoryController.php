@@ -14,19 +14,25 @@ class CategoryController extends Controller
         $category_form_array = [];
         //全カテゴリのデータがPOSTされてくるので、ひとつづつformに入れる
         foreach ($request->request as $key => $val) {
+            //TODO:オブジェクト作れ
+            //TODO:配列じゃなくてコレクションクラスにしたほうがいい
+            $category_delete_list = [];
             //csrfトークンをスキップ
             if ($key === "_token") {
                 continue;
             //新しいカテゴリはidがないので個別に対応
             } else if ($key === "category_new") {
                 $category_form_array[] = new CategoryForm(null, $val);
-                continue;
+            //削除カテゴリリストは別処理にする
+            } else if ($key === "category_delete_list") {
+                $category_delete_list = explode(',', $val);
+            } else {
+                //TODO:配列じゃなくてコレクションクラスにしたほうがいい
+                $category_form_array[] = new CategoryForm($this->getIdfromInputName($key), $val);
             }
-
-            $category_form_array[] = new CategoryForm($this->getIdfromInputName($key), $val);
         }
 
-        $use_case->update($category_form_array);
+        $use_case->updateAndDelete($category_form_array, $category_delete_list);
 
         return redirect()->route('home');
     }

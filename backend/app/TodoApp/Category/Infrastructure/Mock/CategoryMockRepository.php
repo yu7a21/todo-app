@@ -39,4 +39,27 @@ class CategoryMockRepository implements CategoryRepositoryInterface
     {
 
     }
+
+    /**
+     * カテゴリ更新
+     *
+     * @param  CategoryForm $category_form
+     * @return void
+     */
+    public function updateCategory(CategoryForm $category_form): void
+    {
+
+    }
+
+    /**
+     * カテゴリを削除する
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function deleteById(int $id): void
+    {
+
+    }
+
 }
