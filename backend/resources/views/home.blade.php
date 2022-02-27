@@ -56,8 +56,13 @@
                 <div class="todo-list-container container">
                     <div class="row">
                         @foreach ($datas["todo_dto_list"]->getList() as $todo)
-                            <div class="card todo-card" style="border-radius: 10px; width:24%; background-color:{{$todo->getColorCode()}}">
-                                <div class="card-header">
+                        {{-- おわったタスクページ、やめたタスクページでは色を変えない --}}
+                            @if($title != "おわったタスク" && $title != "やめたタスク")
+                                <div class="card todo-card" style="border-radius: 10px; width:24%; background-color:{{$todo->getColorCode()}}">
+                            @else
+                                <div class="card todo-card" style="border-radius: 10px; width:24%">
+                            @endif
+                            <div class="card-header">
                                     <h3 class="card-title"><strong>{{$todo->getTitle()}}</strong></h3>
                                     <div class="card-tools">
                                         <!-- Buttons, labels, and many other things can be placed here! -->
