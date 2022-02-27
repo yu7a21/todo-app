@@ -80,4 +80,23 @@ class TodoMockRepository implements TodoRepositoryInterface
 
     }
 
+    /**
+     * Redmineからチケットをインポート
+     *
+     * @return void
+     */
+    public function importFromRedmine(): void
+    {
+
+    }
+
+    /**
+     * Backlogからチケットをインポート
+     *
+     * @return void
+     */
+    public function importFromBacklog(): void
+    {
+
+    }
 }

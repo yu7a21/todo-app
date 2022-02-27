@@ -67,9 +67,15 @@
                                     <div class="card-tools">
                                         <!-- Buttons, labels, and many other things can be placed here! -->
                                         <!-- Here is a label for example -->
-                                        {{-- <span class="badge badge-primary">{{$todo->getStatus()->getStatus()}}</span>
-                                        <span class="badge badge-primary">{{$todo->getScale()->getScale()}}</span>
-                                        <span class="badge badge-primary">{{$todo->getOrigin()}}</span> --}}
+                                        {{-- <span class="badge badge-primary">{{$todo->getStatus()->getStatus()}}</span> --}}
+                                        {{-- <span class="badge badge-primary">{{$todo->getScale()->getScale()}}</span> --}}
+                                        @if ($todo->getOrigin()->getOrigin() == "backlog")
+                                            <span class="badge badge-success">{{$todo->getOrigin()->getOrigin()}}</span>
+                                        @elseif ($todo->getOrigin()->getOrigin() == "redmine")
+                                            <span class="badge badge-danger">{{$todo->getOrigin()->getOrigin()}}</span>
+                                        @else
+                                            <span class="badge badge-info">{{$todo->getOrigin()->getOrigin()}}</span>
+                                        @endif
                                     </div>
                                     <!-- /.card-tools -->
                                 </div>

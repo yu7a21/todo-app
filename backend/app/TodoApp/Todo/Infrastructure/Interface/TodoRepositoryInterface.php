@@ -64,4 +64,18 @@ interface TodoRepositoryInterface
      * @return void
      */
     public function deleteCategoryId(int $category_id): void;
+
+    /**
+     * Redmineからチケットをインポート
+     *
+     * @return void
+     */
+    public function importFromRedmine():void;
+
+    /**
+     * Backlogからチケットをインポート
+     *
+     * @return void
+     */
+    public function importFromBacklog():void;
 }

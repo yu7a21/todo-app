@@ -13,7 +13,7 @@ class Todo
     //期日
     private string $deadline;
     //作成元(オリジナルorRedmineorBacklog)
-    private string $origin;
+    private TodoOrigin $origin;
     //元チケットID($origin=RedmineorBacklogのときのみ)
     private string $ticket_id;
     //カテゴリID
@@ -37,7 +37,7 @@ class Todo
         $this->title = $data["title"];
         $this->description = $this->setNullableValue($data["description"]);
         $this->deadline = $this->setNullableValue($data["deadline"]);
-        $this->origin = $this->setNullableValue($data["origin"]);
+        $this->origin = new TodoOrigin($this->setNullableValue($data["origin"]));
         $this->ticket_id = $this->setNullableValue($data["ticket_id"]);
         $this->category_id = $this->setNullableValue($data["category_id"]);
         $this->scale = new TodoScale($this->setNullableValue($data["scale"]));
@@ -68,7 +68,7 @@ class Todo
         return $this->deadline;
     }
 
-    public function getOrgin(): string
+    public function getOrgin(): TodoOrigin
     {
         return $this->origin;
     }

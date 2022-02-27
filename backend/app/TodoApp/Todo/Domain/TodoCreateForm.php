@@ -31,7 +31,7 @@ class TodoCreateForm
         $this->title = $request["title"];
         $this->description = $this->setNullableValue($request["description"]);
         $this->deadline = $this->setNullableValue($request["deadline"]);
-        $this->origin = "original"; //作成フォームを使ったということはオリジナル
+        $this->origin = new TodoOrigin(TodoOrigin::ORIGINAL); //作成フォームを使ったということはオリジナル
         $this->ticket_id = "";
         $this->category_id = $this->setNullableValue($request["category_id"]);
         $this->scale = new TodoScale($this->setNullableValue($request["scale"]));

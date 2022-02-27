@@ -16,7 +16,7 @@ class TodoDTO
     //期日
     private string $deadline;
     //作成元(オリジナルorRedmineorBacklog)
-    private string $origin;
+    private TodoOrigin $origin;
     //元チケットID($origin=RedmineorBacklogのときのみ)
     private string $ticket_id;
     //カテゴリID
@@ -82,7 +82,7 @@ class TodoDTO
         }
     }
 
-    public function getOrigin(): string
+    public function getOrigin(): TodoOrigin
     {
         return $this->origin;
     }

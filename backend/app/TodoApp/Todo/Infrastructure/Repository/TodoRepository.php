@@ -6,10 +6,15 @@ use App\TodoApp\Category\Domain\Category;
 use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 use App\TodoApp\Todo\Domain\Todo;
+use App\TodoApp\Todo\Domain\TodoOrigin;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
+use App\TodoApp\Todo\Domain\TodoScale;
 use App\TodoApp\Todo\Domain\TodoStatus;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+
+use Itigoppo\BacklogApi\Backlog\Backlog;
+use Itigoppo\BacklogApi\Connector\ApiKeyConnector;
 
 class TodoRepository extends Model implements TodoRepositoryInterface
 {
@@ -157,6 +162,66 @@ class TodoRepository extends Model implements TodoRepositoryInterface
      */
     public function deleteCategoryId(int $category_id): void
     {
-        $todos = self::where('category_id', $category_id)->get();
+        $todos = self::where('category_id', $category_id)->update(["category_id" => ""]);
+    }
+
+    /**
+     * Redmineからチケットをインポート
+     *
+     * @return void
+     */
+    public function importFromRedmine(): void
+    {
+
+    }
+
+    /**
+     * Backlogからチケットをインポート
+     *
+     * @return void
+     */
+    public function importFromBacklog(): void
+    {
+        $backlog = new Backlog(new ApiKeyConnector('team-lab', env('BACKLOG_API_KEY'), 'com'));
+        $issue_list = $backlog->issues->load([
+            'projectId[]'=>env('BACKLOG_PROJECT_ID'),
+            'statusId' => [1, 2, 3],
+            'assigneeId[]' => env('BACKLOG_ASSIGNEE_ID')
+        ]);
+
+        foreach ($issue_list as $issue) {
+            if (count(self::where("ticket_id", $issue->issueKey)->get()) == 0) {
+                //TODO: このあたりの判定基準は微妙、そもそもここに持たせるべきロジックなのかわからん
+                if ($issue->estimatedHours < 8) {
+                    $scale = TodoScale::SMALL;
+                } else if ($issue->estimatedHours < 24) {
+                    $scale = TodoScale::MIDIUM;
+                } else {
+                    $scale = TodoScale::LARGE;
+                }
+
+                if ($issue->status->id == 1) {
+                    $status = TodoStatus::NEW;
+                } else if ($issue->status->id == 2) {
+                    $status = TodoStatus::IN_PROGRESS;
+                } else {
+                    $status = TodoStatus::DONE;
+                }
+
+                $deadline = new Datetime($issue->dueDate);
+                //キモすぎ、、、、、、、
+                $todo_repository = new TodoRepository([
+                    'title' => $issue->summary,
+                    'description' => $issue->description,
+                    'deadline' => $deadline->format('Y-m-d H:m:s'),
+                    'origin' => TodoOrigin::BACKLOG,
+                    'ticket_id' => $issue->issueKey,
+                    'category_id' => "",
+                    'scale' => $scale,
+                    'status' => $status
+                ]);
+                $todo_repository->save();
+            }
+        }
     }
 }

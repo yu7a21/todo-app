@@ -98,6 +98,15 @@ class TodoUseCase
         $this->todo_repository->deleteCategoryId($category_id);
     }
 
+    public function issueImport(): void
+    {
+        //redmineからインポート
+        $this->todo_repository->importFromRedmine();
+
+        //backlogからインポート
+        $this->todo_repository->importFromBacklog();
+    }
+
     private function countCompletedTodoInThisWeek(): int
     {
         $todo_list = $this->todo_repository->getCompletedTodo($this->getWeekDays());

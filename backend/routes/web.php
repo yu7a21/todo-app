@@ -27,4 +27,8 @@ Route::get('/completed', 'Todo\CompletedTodoController')->name('completed_todo')
 
 Route::post('/category', 'Category\CategoryController')->name('category_edit');
 
+Route::get('/issue_import', 'Todo\IssueImportController')->name('import');
+
+//NOTE: 新しいルーティングを追加する時はこれより上に書く
 Route::get('/{category_name}', 'Todo\CategoryHomeController')->name('category');
+

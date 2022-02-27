@@ -110,6 +110,17 @@
                     </a>
                 </li>
             </ul>
+            {{-- redmine/backlogのチケットをインポート --}}
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                <li class="nav-item">
+                    <a href="{{route('import')}}" class="nav-link">
+                        <i class="nav-icon fas fa-file-import"></i>
+                        <p>
+                            チケットインポート
+                        </p>
+                    </a>
+                </li>
+            </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>

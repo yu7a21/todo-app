@@ -17,6 +17,6 @@ class TodoColorCodeEnum
         self::MIDDLE_HIGH => "#FFD066",
         self::MIDDLE => "#FFE099",
         self::MIDDLE_LOW => "#FFECC2",
-        self::LOW => "#FFFFFF"
+        self::LOW => "#FFF9EB"
     ];
 }
