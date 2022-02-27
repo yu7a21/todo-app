@@ -3,6 +3,7 @@
 namespace App\TodoApp\Todo\Domain;
 
 use DateTime;
+use Illuminate\Support\Facades\Date;
 
 class TodoDTO
 {
@@ -33,6 +34,9 @@ class TodoDTO
     //更新日
     private string $updated_at;
 
+    //表示時のカラーコード（規模、期限までの長さで算出）
+    private string $color_code;
+
     public function __construct(Todo $todo)
     {
         $this->id = $todo->getId();
@@ -48,6 +52,8 @@ class TodoDTO
         $this->is_deleted = $todo->isDeleted();
         $this->created_at = $todo->getCreatedAt();
         $this->updated_at = $todo->getUpdatedAt();
+
+        $this->color_code = $this->setColorCode();
     }
 
     public function getId(): string
@@ -121,6 +127,11 @@ class TodoDTO
         return $this->updated_at;
     }
 
+    public function getColorCode(): string
+    {
+        return $this->color_code;
+    }
+
     /**
      * 期限を過ぎているかどうかを返す
      *
@@ -130,5 +141,66 @@ class TodoDTO
     {
         $now = new DateTime();
         return strtotime($now->format('Y/m/d')) > strtotime($this->deadline);
+    }
+
+    /**
+     * 期日・規模から優先度を算出し、このタスクを表示するときに使うカラーコードを返す
+     *
+     * @return string
+     */
+    private function setColorCode(): string
+    {
+        //規模をレベルに変換
+        $scale_level = 0;
+        switch ($this->scale->getScale()) {
+            case TodoScale::LARGE:
+                $scale_level = 1;
+                break;
+            case TodoScale::MIDIUM:
+                $scale_level = 2;
+                break;
+            case TodoScale::SMALL:
+                $scale_level = 3;
+                break;
+            default:
+                break;
+        }
+
+        //今日から期日までの期間を3段階のレベルに変換
+        $deadline_level = 0;
+        $now = new DateTime();
+        $deadline_time = new DateTime($this->deadline);
+        $diff = $deadline_time->diff($now);
+        if ($diff->d < 4) {
+            $deadline_level = 3;
+        } else if ($diff->d < 8) {
+            $deadline_level = 2;
+        } else {
+            $deadline_level = 1;
+        }
+
+        //規模と期日のレベルの合計値で優先度を算出、カラーコードを返す
+        /*
+        合計値6:high
+        合計値5:middle_high
+        合計値4:middle
+        合計値3:middle_low
+        合計値2:low
+        */
+        switch($scale_level + $deadline_level) {
+            case 6:
+                return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::HIGH];
+            case 5:
+                return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::MIDDLE_HIGH];
+            case 4:
+                return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::MIDDLE];
+            case 3:
+                return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::MIDDLE_LOW];
+            case 2:
+                return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::LOW];
+            default:
+                return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::LOW];
+        }
+
     }
 }

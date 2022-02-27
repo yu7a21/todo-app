@@ -56,7 +56,7 @@
                 <div class="todo-list-container container">
                     <div class="row">
                         @foreach ($datas["todo_dto_list"]->getList() as $todo)
-                            <div class="card todo-card" style="border-radius: 10px; width:24%">
+                            <div class="card todo-card" style="border-radius: 10px; width:24%; background-color:{{$todo->getColorCode()}}">
                                 <div class="card-header">
                                     <h3 class="card-title"><strong>{{$todo->getTitle()}}</strong></h3>
                                     <div class="card-tools">
