@@ -54,25 +54,25 @@
                     </div>
                 </div>
                 <div class="todo-list-container container">
-                    <div class="row">
+                    <div class="card-columns">
                         @foreach ($datas["todo_dto_list"]->getList() as $todo)
                         {{-- おわったタスクページ、やめたタスクページでは色を変えない --}}
                             @if($title != "おわったタスク" && $title != "やめたタスク")
-                                <div class="card todo-card" style="border-radius: 10px; width:24%; background-color:{{$todo->getColorCode()}}">
+                                <div class="card todo-card" style="border-radius: 10px;background-color:{{$todo->getColorCode()}}">
                             @else
-                                <div class="card todo-card" style="border-radius: 10px; width:24%">
+                                <div class="card todo-card" style="border-radius: 10px;">
                             @endif
                             <div class="card-header">
                                     <h3 class="card-title"><strong>{{$todo->getTitle()}}</strong></h3>
                                     <div class="card-tools">
-                                        <!-- Buttons, labels, and many other things can be placed here! -->
-                                        <!-- Here is a label for example -->
-                                        {{-- <span class="badge badge-primary">{{$todo->getStatus()->getStatus()}}</span> --}}
-                                        {{-- <span class="badge badge-primary">{{$todo->getScale()->getScale()}}</span> --}}
                                         @if ($todo->getOrigin()->getOrigin() == "backlog")
-                                            <span class="badge badge-success">{{$todo->getOrigin()->getOrigin()}}</span>
+                                            <span class="badge badge-success">
+                                                <a style="color:white;text-decoration:underline;" target="_blank" href={{$todo->getTicketLink()}}>{{$todo->getOrigin()->getOrigin()}}</a>
+                                            </span>
                                         @elseif ($todo->getOrigin()->getOrigin() == "redmine")
-                                            <span class="badge badge-danger">{{$todo->getOrigin()->getOrigin()}}</span>
+                                            <span class="badge badge-danger">
+                                                <a style="color:white;text-decoration:underline;" target="_blank" href={{$todo->getTicketLink()}}>{{$todo->getOrigin()->getOrigin()}}</a>
+                                            </span>
                                         @else
                                             <span class="badge badge-info">{{$todo->getOrigin()->getOrigin()}}</span>
                                         @endif
@@ -80,7 +80,7 @@
                                     <!-- /.card-tools -->
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body">
+                                <div class="card-body" style="height:auto">
                                     {{$todo->getDescription()}}
                                 </div>
                                 <!-- /.card-body -->

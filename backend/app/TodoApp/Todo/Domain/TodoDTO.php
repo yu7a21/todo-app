@@ -37,6 +37,9 @@ class TodoDTO
     //表示時のカラーコード（規模、期限までの長さで算出）
     private string $color_code;
 
+    //redmine,backlogへのリンク
+    private string $ticket_link;
+
     public function __construct(Todo $todo)
     {
         $this->id = $todo->getId();
@@ -54,6 +57,7 @@ class TodoDTO
         $this->updated_at = $todo->getUpdatedAt();
 
         $this->color_code = $this->setColorCode();
+        $this->setTicketLink();
     }
 
     public function getId(): string
@@ -132,6 +136,11 @@ class TodoDTO
         return $this->color_code;
     }
 
+    public function getTicketLink(): string
+    {
+        return $this->ticket_link;
+    }
+
     /**
      * 期限を過ぎているかどうかを返す
      *
@@ -202,5 +211,14 @@ class TodoDTO
                 return TodoColorCodeEnum::COLOR_CODE_LIST[TodoColorCodeEnum::LOW];
         }
 
+    }
+
+    private function setTicketLink(): void
+    {
+        if ($this->origin->isBacklog()) {
+            $this->ticket_link = "https://team-lab.backlog.com/view/". $this->ticket_id;
+        } else if ($this->origin->isRedmine()) {
+            $this->ticket_link = "https://mori-building-redmine.team-lab.dev/issues/". $this->ticket_id;
+        }
     }
 }

@@ -11,6 +11,7 @@ use App\TodoApp\Todo\Domain\TodoCreateForm;
 use App\TodoApp\Todo\Domain\TodoScale;
 use App\TodoApp\Todo\Domain\TodoStatus;
 use DateTime;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 
 use Itigoppo\BacklogApi\Backlog\Backlog;
@@ -30,6 +31,8 @@ class TodoRepository extends Model implements TodoRepositoryInterface
         'scale',
         'status',
     ];
+
+    const DESCRIPTION_LENGTH = 300;
 
     /**
      * カテゴリでタスクを絞り込んで取得
@@ -172,7 +175,38 @@ class TodoRepository extends Model implements TodoRepositoryInterface
      */
     public function importFromRedmine(): void
     {
+        $this->client = new Client([
+            'base_uri' => "https://mori-building-redmine.team-lab.dev/"
+        ]);
 
+        $response = $this->client->request('GET', "/issues.json", [
+            'headers' => [],
+            'query' => ['key' => env('REDMINE_API_KEY'), 'project_id' => 'hills-app', 'assigned_to_id' => '88', 'limit' => 100]
+        ]);
+
+        $issue_list = json_decode($response->getBody()->getContents());
+        foreach ($issue_list->issues as $issue) {
+            if ($this->isNewIssue($issue->id)) {
+                $scale = $this->getScaleByEstimatedHours($issue->estimated_hours);
+                $deadline = new Datetime($issue->due_date);
+
+                //キモすぎ、、、、、、、
+                $todo_repository = new TodoRepository([
+                    'title' => $issue->subject,
+                    'description' => mb_substr($issue->description, 0, self::DESCRIPTION_LENGTH),
+                    // 'description' => $issue->description,
+                    'deadline' => $deadline->format('Y-m-d H:m:s'),
+                    'origin' => TodoOrigin::REDMINE,
+                    'ticket_id' => $issue->id,
+                    'category_id' => "",
+                    'scale' => $scale,
+                    //redmineはステータスが変わるのでとりあえず全部newで取り込む
+                    'status' => TodoStatus::NEW
+                ]);
+                // dd($todo_repository);
+                $todo_repository->save();
+            }
+        }
     }
 
     /**
@@ -190,15 +224,8 @@ class TodoRepository extends Model implements TodoRepositoryInterface
         ]);
 
         foreach ($issue_list as $issue) {
-            if (count(self::where("ticket_id", $issue->issueKey)->get()) == 0) {
-                //TODO: このあたりの判定基準は微妙、そもそもここに持たせるべきロジックなのかわからん
-                if ($issue->estimatedHours < 8) {
-                    $scale = TodoScale::SMALL;
-                } else if ($issue->estimatedHours < 24) {
-                    $scale = TodoScale::MIDIUM;
-                } else {
-                    $scale = TodoScale::LARGE;
-                }
+            if ($this->isNewIssue($issue->issueKey)) {
+                $scale = $this->getScaleByEstimatedHours($issue->estimatedHours);
 
                 if ($issue->status->id == 1) {
                     $status = TodoStatus::NEW;
@@ -212,7 +239,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
                 //キモすぎ、、、、、、、
                 $todo_repository = new TodoRepository([
                     'title' => $issue->summary,
-                    'description' => $issue->description,
+                    'description' => mb_substr($issue->description, 0, self::DESCRIPTION_LENGTH),
                     'deadline' => $deadline->format('Y-m-d H:m:s'),
                     'origin' => TodoOrigin::BACKLOG,
                     'ticket_id' => $issue->issueKey,
@@ -222,6 +249,23 @@ class TodoRepository extends Model implements TodoRepositoryInterface
                 ]);
                 $todo_repository->save();
             }
+        }
+    }
+
+    private function isNewIssue(string $ticket_id): bool
+    {
+        return count(self::where("ticket_id", $ticket_id)->get()) == 0;
+    }
+
+    private function getScaleByEstimatedHours(?string $estimated_hours): string
+    {
+        //TODO: このあたりの判定基準は微妙、そもそもここに持たせるべきロジックなのかわからん
+        if ($estimated_hours < 8) {
+            return TodoScale::SMALL;
+        } else if ($estimated_hours < 24) {
+            return TodoScale::MIDIUM;
+        } else {
+            return TodoScale::LARGE;
         }
     }
 }

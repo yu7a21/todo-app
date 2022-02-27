@@ -19,4 +19,14 @@ class TodoOrigin
     {
         return $this->origin;
     }
+
+    public function isBacklog(): bool
+    {
+        return $this->origin === self::BACKLOG;
+    }
+
+    public function isRedmine(): bool
+    {
+        return $this->origin === self::REDMINE;
+    }
 }
