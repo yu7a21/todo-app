@@ -77,7 +77,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
             'title' => $todo_form->getTitle(),
             'description' => $todo_form->getDescription(),
             'deadline' => $todo_form->getDeadLine() ? $todo_form->getDeadLine() : null,
-            'origin' => $todo_form->getOrigin(),
+            'origin' => $todo_form->getOrigin()->getOrigin(),
             'ticket_id' => $todo_form->getTicketId(),
             'category_id' => $todo_form->getCategoryId(),
             'scale' => $todo_form->getScale()->getScale(),
@@ -105,7 +105,7 @@ class TodoRepository extends Model implements TodoRepositoryInterface
      */
     public function completeById(int $id): void
     {
-        $now = new DateTime();
+        $now = new DateTime('Asia/Tokyo');
         self::where('id', $id)->update(["completed_at" => $now->format('Y-m-d H:i:s'), "status" => TodoStatus::DONE]);
     }
 
