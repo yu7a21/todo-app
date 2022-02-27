@@ -65,6 +65,7 @@
                             <div class="card-header">
                                     <h3 class="card-title"><strong>{{$todo->getTitle()}}</strong></h3>
                                     <div class="card-tools">
+                                        {{-- インポートされたタスクは元チケットへのリンクを入れる --}}
                                         @if ($todo->getOrigin()->getOrigin() == "backlog")
                                             <span class="badge badge-success">
                                                 <a style="color:white;text-decoration:underline;" target="_blank" href={{$todo->getTicketLink()}}>{{$todo->getOrigin()->getOrigin()}}</a>
@@ -75,6 +76,13 @@
                                             </span>
                                         @else
                                             <span class="badge badge-info">{{$todo->getOrigin()->getOrigin()}}</span>
+                                        @endif
+                                        {{-- カテゴリが設定されているタスクはカテゴリ別ページへのリンクを入れる --}}
+                                        @if ($todo->getCategoryId() != "")
+                                            <?php $category_name = $datas["category_dto_list"]->getById($todo->getCategoryId())->getName()?>
+                                            <span class="badge badge-secondary">
+                                                <a style="color:white;text-decoration:underline;" href={{ route("category", ["category_name" => $category_name])}}>#{{$category_name}}</a>
+                                            </span>
                                         @endif
                                     </div>
                                     <!-- /.card-tools -->
@@ -103,22 +111,22 @@
                                             @endif
                                             {{-- おわったタスクページ、やめたタスクページでは表示しない --}}
                                             @if ($title != "おわったタスク" && $title != "やめたタスク")
-                                                <form method="POST" id="complete_form_{{$todo->getId()}}" action="{{ route('complete_todo')}}">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value={{$todo->getId()}}>
-                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                                    <div class="col-sm-2" style="text-align: center;">
+                                                <div class="col-sm-2" style="text-align: center;">
+                                                    <form method="POST" id="complete_form_{{$todo->getId()}}" action="{{ route('complete_todo')}}">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value={{$todo->getId()}}>
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                         <a href="javascript:complete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon far fa-check-circle"></i></a>
-                                                    </div>
-                                                </form>
-                                                <form method="POST" id="delete_form_{{$todo->getId()}}" action="{{ route('delete_todo')}}">
-                                                    @csrf
-                                                    <div class="col-sm-2" style="text-align: center;">
+                                                    </form>
+                                                </div>
+                                                <div class="col-sm-2" style="text-align: center;">
+                                                    <form method="POST" id="delete_form_{{$todo->getId()}}" action="{{ route('delete_todo')}}">
+                                                        @csrf
                                                         <input type="hidden" name="id" value={{$todo->getId()}}>
                                                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                         <a href="javascript:delete_form_{{$todo->getId()}}.submit()" class="nav-link" style="display:inline;padding:3px;color:black"><i class="nav-icon fas fa-trash-alt"></i></a>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>

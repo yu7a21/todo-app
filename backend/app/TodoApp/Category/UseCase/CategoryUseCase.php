@@ -85,11 +85,13 @@ class CategoryUseCase
         $todo_use_case = new TodoUseCase();
 
         foreach ($delete_category_list as $category_id) {
-            //タスクテーブルに登録されているIDを削除
-            $todo_use_case->deleteCategoryId($category_id);
+            if ($category_id != "") {
+                //タスクテーブルに登録されているIDを削除
+                $todo_use_case->deleteCategoryId($category_id);
 
-            //カテゴリDBから削除
-            $this->category_repository->deleteById($category_id);
+                //カテゴリDBから削除
+                $this->category_repository->deleteById($category_id);
+            }
         }
 
     }

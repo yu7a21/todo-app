@@ -16,8 +16,28 @@ class CategoryDTOList
         }
     }
 
+    /**
+     * 全カテゴリを返す
+     *
+     * @return array
+     */
     public function getList(): array
     {
         return $this->category_dto_list;
+    }
+
+    /**
+     * IDで検索
+     *
+     * @param  mixed $category_id
+     * @return CategoryDTO
+     */
+    public function getById(int $category_id): CategoryDTO
+    {
+        foreach ($this->category_dto_list as $category_dto) {
+            if ($category_dto->getId() == $category_id) {
+                return $category_dto;
+            }
+        }
     }
 }
