@@ -194,7 +194,6 @@ class TodoRepository extends Model implements TodoRepositoryInterface
                 $todo_repository = new TodoRepository([
                     'title' => $issue->subject,
                     'description' => mb_substr($issue->description, 0, self::DESCRIPTION_LENGTH),
-                    // 'description' => $issue->description,
                     'deadline' => $deadline->format('Y-m-d H:m:s'),
                     'origin' => TodoOrigin::REDMINE,
                     'ticket_id' => $issue->id,
