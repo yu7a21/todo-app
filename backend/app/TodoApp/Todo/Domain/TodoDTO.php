@@ -70,9 +70,10 @@ class TodoDTO
         return $this->title;
     }
 
-    public function getDescription(): string
+    //TODO: echo使うのは微妙？でもDTOだから許される？
+    public function getDescription(): void
     {
-        return $this->description;
+        echo preg_replace('((http|https)?://[-_.!~*\'()a-zA-Z0-9;/?:@&=+$,%#]+)', '<a href=\'$0\' target=\'_blank\'>$0</a>', $this->description);
     }
 
     public function getDeadLine(): string
