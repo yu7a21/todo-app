@@ -17,6 +17,8 @@ Route::get('/', 'Todo\HomeController')->name('home');
 
 Route::post('/create', 'Todo\CreateController')->name('create');
 
+Route::post('/update', 'Todo\UpdateController')->name('update');
+
 Route::post('/delete', 'Todo\DeleteController')->name('delete_todo');
 
 Route::post('/complete', 'Todo\CompleteController')->name('complete_todo');

@@ -10,6 +10,7 @@ use App\TodoApp\Todo\Domain\TodoOrigin;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
 use App\TodoApp\Todo\Domain\TodoScale;
 use App\TodoApp\Todo\Domain\TodoStatus;
+use App\TodoApp\Todo\Domain\TodoUpdateForm;
 use DateTime;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
@@ -84,6 +85,24 @@ class TodoRepository extends Model implements TodoRepositoryInterface
             'status' => $todo_form->getStatus()->getStatus(),
         ]);
         $todo_repository->save();
+    }
+
+    /**
+     * 更新の保存
+     *
+     * @param  TodoUpdateForm $todo
+     * @return void
+     */
+    public function updateByForm(TodoUpdateForm $todo): void
+    {
+        self::where('id', $todo->getId())->update([
+            'title' => $todo->getTitle(),
+            'description' => $todo->getDescription(),
+            'deadline' => $todo->getDeadLine() ? $todo->getDeadLine() : null,
+            'category_id' => $todo->getCategoryId(),
+            'scale' => $todo->getScale()->getScale()
+            // 'status' => $todo->getStatus()->getStatus(),
+        ]);
     }
 
     /**

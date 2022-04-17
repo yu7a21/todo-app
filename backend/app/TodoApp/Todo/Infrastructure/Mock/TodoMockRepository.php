@@ -5,6 +5,7 @@ namespace App\TodoApp\Todo\Infrastructure\Mock;
 use App\TodoApp\Category\Domain\Category;
 use App\TodoApp\Todo\Domain\Todo;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
+use App\TodoApp\Todo\Domain\TodoUpdateForm;
 use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
@@ -15,7 +16,7 @@ class TodoMockRepository implements TodoRepositoryInterface
         return new TodoList([new Todo([])]);
     }
 
-        /**
+    /**
      * ドメインを永続化
      *
      * @param  Todo $todo
@@ -25,6 +26,18 @@ class TodoMockRepository implements TodoRepositoryInterface
     {
 
     }
+
+    /**
+     * 更新の保存
+     *
+     * @param  TodoUpdateForm $todo
+     * @return void
+     */
+    public function updateByForm(TodoUpdateForm $todo): void
+    {
+
+    }
+
 
     /**
      * タスクを削除（論理削除）

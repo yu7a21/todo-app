@@ -10,6 +10,7 @@ use App\TodoApp\Todo\Domain\TodoDTO;
 use App\TodoApp\Todo\Domain\TodoDTOList;
 use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Domain\TodoScale;
+use App\TodoApp\Todo\Domain\TodoUpdateForm;
 use App\TodoApp\Todo\Infrastructure\Interface\TodoRepositoryInterface;
 
 use DateTime;
@@ -47,6 +48,11 @@ class TodoUseCase
     public function create(TodoCreateForm $todo_create_form): void
     {
         $this->todo_repository->create($todo_create_form);
+    }
+
+    public function update(TodoUpdateForm $todo_update_form): void
+    {
+        $this->todo_repository->updateByForm($todo_update_form);
     }
 
     public function delete(int $id): void

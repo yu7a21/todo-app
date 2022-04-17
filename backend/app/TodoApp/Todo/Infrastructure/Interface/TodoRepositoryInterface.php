@@ -5,6 +5,7 @@ namespace App\TodoApp\Todo\Infrastructure\Interface;
 use App\TodoApp\Category\Domain\Category;
 use App\TodoApp\Todo\Domain\TodoList;
 use App\TodoApp\Todo\Domain\TodoCreateForm;
+use App\TodoApp\Todo\Domain\TodoUpdateForm;
 
 interface TodoRepositoryInterface
 {
@@ -20,10 +21,18 @@ interface TodoRepositoryInterface
     /**
      * ドメインを永続化
      *
-     * @param  Todo $todo
+     * @param  TodoCreateForm $todo
      * @return void
      */
     public function create(TodoCreateForm $todo): void;
+
+    /**
+     * 更新の保存
+     *
+     * @param  TodoUpdateForm $todo
+     * @return void
+     */
+    public function updateByForm(TodoUpdateForm $todo): void;
 
     /**
      * タスクを削除（論理削除）
