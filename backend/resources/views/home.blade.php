@@ -125,13 +125,13 @@
                     @foreach ($datas["todo_dto_list"]->getList() as $todo)
                     {{-- おわったタスクページ、やめたタスクページでは色を変えない&編集モーダルを出さない --}}
                         @if($title != "おわったタスク" && $title != "やめたタスク")
-                            <div class="card todo-card todo-card-home" data-id="{{$todo->getId()}}" style="border-radius: 10px;background-color:{{$todo->getColorCode()}}">
+                            <div class="card todo-card" data-id="{{$todo->getId()}}" style="border-radius: 10px;background-color:{{$todo->getColorCode()}}">
                             <input type="hidden" id="todoScale_{{$todo->getId()}}" value="{{$todo->getScale()->getScale()}}">
                         @else
                             <div class="card todo-card" style="border-radius: 10px;">
                         @endif
                         <div class="card-header">
-                                <h3 class="card-title" id="todoTitle_{{$todo->getId()}}"><strong>{{$todo->getTitle()}}</strong></h3>
+                                <h3 class="card-title" id="todoTitle_{{$todo->getId()}}" onclick="showEditModal({{$todo->getId()}})"><strong>{{$todo->getTitle()}}</strong></h3>
                                 <div class="card-tools">
                                     {{-- インポートされたタスクは元チケットへのリンクを入れる --}}
                                     @if ($todo->getOrigin()->getOrigin() == "backlog")
@@ -157,7 +157,7 @@
                                 <!-- /.card-tools -->
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body" style="height:auto">
+                            <div class="card-body" style="height:auto" onclick="showEditModal({{$todo->getId()}})">
                                 <p id="todoDescription_{{$todo->getId()}}">{{$todo->getDescription()}}</p>
                             </div>
                             <!-- /.card-body -->
@@ -166,7 +166,7 @@
                                     <div class="row">
                                         {{-- 期日があるもののみ表示 --}}
                                         @if($todo->getDeadLine() != "")
-                                            <div class="col-sm-8"style="text-align: left">
+                                            <div class="col-sm-8"style="text-align: left" onclick="showEditModal({{$todo->getId()}})">
                                                 {{-- 期日を過ぎていたら赤くする。おわったタスクページ、やめたタスクページでは赤くしない --}}
                                                 @if($todo->isOutOfDeadline() && $title != "おわったタスク" && $title != "やめたタスク")
                                                     <p style="color:red; margin:0;" id="todoDeadline_{{$todo->getId()}}"><i class="fas fa-calendar-times"></i> : {{$todo->getDeadLine()}}</p>
@@ -245,6 +245,10 @@ form.cmxform label.error, label.error {
             dateFormat: 'yy/mm/dd'
         });
 
+        $('#editModalDeadline').datepicker({
+            dateFormat: 'yy/mm/dd'
+        });
+
         // バリデーション
         $('#todoCreateForm').validate({
             rules: {
@@ -271,14 +275,10 @@ form.cmxform label.error, label.error {
                 }
             },
         });
+    })
 
-        $('#modal-ignore').on('click', function(){
-            $('#todoEditModal').modal('hide');
-        })
-
-        $('.todo-card-home').on('click', function(){
+    function showEditModal(todo_id) {
             //クリックされたタスクの情報（タイトル、内容など）を取得
-            var todo_id = $(this).data('id');
             var title = $('#todoTitle_'+todo_id).text();
             var description = $('#todoDescription_'+todo_id).text();
             var category_id = $('#todoCategoryId_'+todo_id).val();
@@ -294,8 +294,7 @@ form.cmxform label.error, label.error {
             $('#editModalDeadline').val(deadline);
 
             $('#todoEditModal').modal();
-        })
-    })
+        }
 
 </script>
 
