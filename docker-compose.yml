@@ -2,6 +2,12 @@ version: "3.8"
 services:
   app:
     build: ./docker/php
+    environment:
+      - DB_HOST=db
+      - DB_PROT=3306
+      - DB_DATABASE=todo
+      - DB_USER=user
+      - DB_PASSWORD=password
     ports:
       - 20000:60
     volumes:
